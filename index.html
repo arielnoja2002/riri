@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Monthsary</title>
+    <style>
+        #background-music {
+            display: none; /* Hide the audio element */
+        }
+        h1 {
+            transition: transform 0.1s ease; /* Smooth transition for the dancing effect */
+        }
+        .dance {
+            animation: dance 0.5s infinite; /* Repeat the animation infinitely */
+        }
+        @keyframes dance {
+            0% { transform: translateY(0); }
+            25% { transform: translateY(-10px); }
+            50% { transform: translateY(0); }
+            75% { transform: translateY(10px); }
+            100% { transform: translateY(0); }
+        }
+        .quiz-button {
+            width: 70px; /* Set a uniform width for buttons */
+            height: 40px; /* Set a uniform height for buttons */
+            font-size: 16px; /* Adjust font size to match quiz buttons */
+            border: none; /* Remove default border */
+            cursor: pointer; /* Change cursor to pointer */
+            color: #fff; /* Change text color to white */
+            border-radius: 5px; /* Add border radius for rounded corners */
+        }
+        #mute-button {
+            background-color: #5A639C; /* Set same color as quiz buttons */
+            margin-left: 5px; /* Add space between timer and button */
+            margin-right: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Background audio -->
+    <audio id="background-music" loop>
+        <source src="bgm.mp3" type="audio/mpeg"> <!-- Set audio file path here -->
+        Your browser does not support the audio element.
+    </audio>
+
+    <main>
+        <!-- Icon 2, initially hidden -->
+        <div id="icon2" style="display: none; background-color: white; border-radius: 10px">
+            <img src="images/icon2.gif" alt="Icon 2" width="180" height="180"/> <!-- Updated icon2 path -->
+            <br><br>
+        </div>
+
+        <h1 id="monthsary-title">3rd Monthsary</h1> <!-- Give the h1 an ID for animation -->
+        
+        <div id="icon1">
+            <img src="images/img1.gif" alt="bear" width="180" height="180"/>
+            <br><br><br>
+        </div>
+    
+        <!-- Start button -->
+        <div>
+            <button id="startbutton" onclick="showfunc()">Start Quiz</button>
+        </div>
+
+        <!-- Question area -->
+        <div class="quizbox" style="display: none;">
+            <div class="timerbox" style="display: flex; align-items: center;">
+                <h4>Timer: <span id="timercount">30s</span></h4> <!-- Timer display -->
+                <button id="mute-button" onclick="toggleMute()" class="quiz-button">Mute</button> <!-- Toggle button next to timer -->
+            </div>
+            <p id="question"></p>
+            
+            <div class="option">
+                <div class="optionup">
+                    <button onclick="handleOptionClick('a')" class="quiz-button" style="background-color: #B9E5E8">a</button>
+                    <button onclick="handleOptionClick('b')" class="quiz-button" style="background-color: #72BF78">b</button>
+                </div>
+                
+                <div class="optiondown">
+                    <button onclick="handleOptionClick('c')" class="quiz-button" style="background-color: #D4BEE4">c</button>
+                    <button onclick="handleOptionClick('d')" class="quiz-button" style="background-color: #629584">d</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Include your JS file here -->
+    <script src="js/script.js"></script>
+
+    <script>
+        let isMuted = false; // Variable to track mute state
+
+        function showfunc() {
+            var show = document.getElementsByClassName("quizbox")[0]; // Get the quizbox
+            var hide = document.getElementById("startbutton"); // Get the start button
+            var icon2 = document.getElementById("icon2"); // Get the icon2 element
+            
+            if (show && hide) {
+                show.style.display = "block";  // Show the quizbox
+                hide.style.display = "none";   // Hide the start button
+                document.getElementById("icon1").style.display = "none";  // Hide the image
+
+                // Show icon2 when the quiz starts
+                icon2.style.display = "block"; // Show icon2
+               
+                question(); // Call the question function
+                startTimer(); // Start the timer
+
+                // Play background music
+                const audio = document.getElementById("background-music");
+                audio.play().catch(function(error) {
+                    console.log("Audio playback failed due to autoplay policy: ", error);
+                });
+
+                // Start dancing animation
+                const title = document.getElementById("monthsary-title");
+                title.classList.add("dance"); // Add dance class to title
+            }
+        }
+
+        function toggleMute() {
+            const audio = document.getElementById("background-music");
+            const muteButton = document.getElementById("mute-button");
+            
+            if (isMuted) {
+                audio.play();
+                muteButton.textContent = "Mute"; // Change button text to Mute
+            } else {
+                audio.pause();
+                muteButton.textContent = "Unmute"; // Change button text to Unmute
+            }
+            isMuted = !isMuted; // Toggle mute state
+        }
+
+        // Your existing JavaScript code for the quiz goes here...
+
+    </script>
+</body>
+</html>
